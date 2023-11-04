@@ -319,17 +319,21 @@ Esta forma de usar el componente no daria problemas en dado caso nosotros quisi�
 ``` 
 
 #### Interface Segregation Principle
-En este principio nos habla sobre ningún cliente debería verse obligado a depender
-de métodos que no utiliza.
+Nos indica que ningún cliente debería verse obligado a depender de métodos que no utiliza.
 
 #### Ejemplo
-Veamos un ejemplo básico imaginemos que tenemos una **Cocina Multicultural**, este nos ofrece un menu
-extenso de muchas recetas (Mexicana, Japonesas, italiana, etc.), esto viola el principio de **Interface Segregation Principle**,
-cuáles podemos notar un Menú que tiene una sobre carga de información, ineficiencia de tiempo para poder tomar una decision y Confusion para algunos clientes, ya que podría
-sentirse frustrados por la abrumadora información.
 
-Una solución que se le puede dar este menú es dividirlo en Menus más chicos, dependendiendo del tipo de 
-cocina y esto nos brinda una Especialización, una facilidad en el uso para los clientes y reduce el tiempo para la toma decisión.
+Pongamos un ejemplo práctico: Imaginemos que visitamos un restaurante con una **Cocina Multicultural**. Este nos presenta un menú extenso con variedad de recetas, desde opciones mexicanas, pasando por japonesas, hasta italianas. Esta variedad, aunque puede parecer atractiva, en realidad viola el **Principio de Segregación de Interfaces**. Los problemas que surgen incluyen:
+
+- Un menú sobrecargado de información.
+- Una ineficiencia en el tiempo que toma al cliente decidir qué ordenar.
+- Confusión para algunos comensales que podrían sentirse abrumados ante tantas opciones.
+
+Una solución efectiva sería segmentar este amplio menú en sub-menús más específicos, organizados por tipo de cocina. De esta manera, se logra:
+
+- Una especialización en la oferta.
+- Facilitar la experiencia de elección para el cliente.
+- Agilizar el proceso de toma de decisiones.
 
 ##### Codigo
 Una vez entendido esto, veamos un ejemplo como se rompe el principio con React.
@@ -359,11 +363,10 @@ export function SegregationPrincipal(){
     )
 }
 ``` 
-Aquí podemos como rompe el principio de la Segregación, ya que estamos agregando todos los atributos dentro de nuestro componente, cuando realmente solo usamos `name`, esto lo habiamos visto 
-en el ejemplo del menú y tener toda la información en un solo componente no tiene sentido.
+Podemos observar cómo se viola el **Principio de Segregación**, ya que estamos incorporando todos los atributos dentro de nuestro componente, cuando en realidad solo hacemos uso de `name`. Esto es similar a lo que habíamos observado en el ejemplo del menú; concentrar toda la información en un único componente carece de sentido.
 
 ###### Solución
-Una forma de corregir a este componente es realmente facil:
+Corregir este componente es realmente sencillo:
 
 ``` typescript jsx 
 
@@ -385,23 +388,21 @@ export function SegregationPrincipal(){
     )
 }
 ``` 
-Ahora podemos solo vamos a estar pasando la información que realmente necesita nuestro componente y esto lo hace legible.
+Ahora, solo pasaremos la información que verdaderamente requiere nuestro componente, lo que mejora significativamente su legibilidad.
 
 #### Dependency Inversion Principle
+Este principio nos señala que se debe depender de abstracciones y no de concreciones. En otras palabras, múltiples interfaces específicas para el cliente son preferibles a una interfaz de propósito general.
 
-En este principio nos habla sobre debera uno debe depender de abstracciones, no de concreciones, osea entre muchas interfaces específicas de cliente son mejores que una interfaz de propósito general.
 #### Ejemplo
-Un ejemplo que podría observar es cuando vemos una instalación electrica, imagínate que no tuvieras enchufes estandar y
-que cada enchufe dependa de un aparato electrico y que cada vez que quieras usar un aparato electrico tengas que llamar a un electricista y hacer una instalación
-para poder usarlo, esto sería muy complejo para poder usar diferentes aparatos y muy costoso de mantener.
 
-Ahora pensemos lo que hoy en día se aplica, se maneja un conector standard y en dado caso que un aparato electrico no tenga esta coneccion standard, se maneja conectores que hacen esa conversion
-eso nos da flexibilidad y es más facil de mantener.
+Consideremos una instalación eléctrica. Imagina que no existieran enchufes estándar y que cada enchufe estuviera diseñado exclusivamente para un aparato eléctrico en particular. Esto implicaría que cada vez que desees usar un nuevo aparato, tendrías que llamar a un electricista y realizar una nueva instalación específica para ese dispositivo. No solo sería complejo al querer usar diversos aparatos, sino también costoso de mantener.
+Por el contrario, lo que comúnmente se aplica hoy en día es el uso de un conector estándar. En caso de que un aparato eléctrico no cuente con esta conexión estándar, existen adaptadores que realizan la conversión necesaria. Esta estrategia nos brinda flexibilidad y facilita el mantenimiento.
 
-##### Codigo
+
+##### Código
 
 Una vez entendido esto, veamos un ejemplo como se rompe el principio con React.
-Usaremos un pedazo de cdigo que ya habíamos usado antes.
+Usaremos un pedazo de código que ya habíamos usado antes.
 ``` typescript jsx 
     useEffect(()=>{
         const userFetch = async () =>{
@@ -416,8 +417,9 @@ Usaremos un pedazo de cdigo que ya habíamos usado antes.
         userFetch().catch(null)
     },[])
 ``` 
-En este caso, fetch es una dependencia porque el componente depende de él para que pueda funcionar correctamente (tiene alto acoplamiento).
-Cuando queramos cambiar esta dependencia tendria que ser en todos los componentes, entonces para solucionar esto podemos aplicar algo como esto:
+En este escenario, `fetch` actúa como una dependencia ya que el componente se apoya en él para su correcto funcionamiento, resultando en un alto acoplamiento.
+Si deseáramos modificar esta dependencia, tendríamos que hacerlo en todos los componentes donde se utiliza. Para abordar este problema, podemos considerar la 
+siguiente solución:
 
 ``` typescript jsx 
 // RequestFactory.ts
@@ -521,11 +523,12 @@ export {
     },[])
 ``` 
 
-Y te preguntas para que agregar todas esas configuraciones, como te das cuenta cada dependecia se fue abstrayendo y generando 
-desacoplamiento, cuando quisieras cambiar de usar `fetch` por `axios`, solo nos vamos hacia `RequestFactory.ts` y ahi cambiamos
-la dependencia y ¡listo!.
+Es probable que te cuestiones la necesidad de agregar todas esas configuraciones. Sin embargo, como podrás notar, cada dependencia se ha ido abstrayendo, 
+generando así un desacoplamiento. Si en algún momento decidimos reemplazar `fetch` por `axios`, simplemente nos dirigimos a `RequestFactory.ts` y efectuamos 
+el cambio en la dependencia. ¡Y ya estaría!
 
-Ahora nuestro componente depende de una abstracción, en este caso, la abstracción es representada por una interfaz de Typescript. Esa misma interfaz la usamos 
-en `userServices` para que su definición sea acorde con la firma de la interfaz.
+De esta manera, nuestro componente ahora se apoya en una abstracción. En este contexto, dicha abstracción es representada por una interfaz de Typescript. 
+Utilizamos esa misma interfaz en `userServices` para asegurarnos de que su definición esté alineada con la firma de la interfaz.
 
-Espero que esto haya sido de mucha ayuda para ustedes, para mi fue de gran práctica esto y espero escuchar ¡su feedback!
+Espero que esta explicación haya sido clara y de gran utilidad para todos. Personalmente, este ejercicio ha sido de gran aprendizaje para mí y
+estoy ansioso de conocer ¡su feedback!

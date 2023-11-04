@@ -3,8 +3,9 @@ import './App.css'
 /*import {CorrectUserList, IncorrectUserList} from "./SingleResponsibility";*/
 /*import {CorrectButton, IncorrecButton} from "./OpenClosePrinciple";
 import {ChevronLeft} from "./components/Icon/ChevronLeft.tsx";*/
-import {RedCorrectButton, RedIncorrectButton} from "./LiskovSustitutionPrinciple";
-
+/*import {RedCorrectButton, RedIncorrectButton} from "./LiskovSustitutionPrinciple";*/
+/*import {SegregationPrincipal} from "./InterfaceSegregationPrinciple";*/
+import {DepencyInversion} from "./DepencyInversion"
 function App() {
 
   return (
@@ -18,8 +19,10 @@ function App() {
         <CorrectButton icon={() => <ChevronLeft size={24}/>}>
             Correct Left
         </CorrectButton>*/}
-        <RedIncorrectButton isBig>Red Incorrect Button </RedIncorrectButton>
-        <RedCorrectButton fontSize={"20px"}>Red Correct Button</RedCorrectButton>
+{/*        <RedIncorrectButton isBig>Red Incorrect Button </RedIncorrectButton>
+        <RedCorrectButton fontSize={"20px"}>Red Correct Button</RedCorrectButton>*/}
+        {/*<SegregationPrincipal/>*/}
+        <DepencyInversion/>
     </div>
   )
 }

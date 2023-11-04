@@ -36,7 +36,7 @@ export const CorrectUserList = () => {
     return(
         <div>
             {
-                users.map(({name,username,email})=>(
+                users?.map(({name,username,email})=>(
                     <UserItem name={name} username={username} email={email}/>
                 ))
             }
